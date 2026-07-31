@@ -1,10 +1,38 @@
+import { useForm } from "react-hook-form";
+
 
 const Register = () => {
-    return (
-        <div>
-            <h2>this is Register section</h2>
-        </div>
-    );
+    const {register, handleSubmit, formState:{errors}} = useForm();
+
+    const handleRegistration = (data) => {
+        console.log(data)
+    }
+  return (
+    <div>
+      <form onSubmit={handleSubmit(handleRegistration)}>
+        <fieldset className="fieldset">
+          <label className="label">Email</label>
+          <input type="email" {...register("email", {required:true})} className="input" placeholder="Email" />
+          {
+            errors.email?.type === "required" && <p className="text-red-400">Email is Required</p>
+          }
+          {/* password */}
+          <label className="label">Password</label>
+          <input type="password" {...register("password", {required:true, minLength:6})} className="input" placeholder="Password" />
+          {
+            errors.password?.type === "required" && <p className="text-red-400">Password is Required</p>
+          }
+          {
+            errors.password?.type === "minLength" && <p className="text-red-400">Password must be 6 digits.</p>
+          }
+          <div>
+            <a className="link link-hover">Forgot password?</a>
+          </div>
+          <button className="btn btn-neutral mt-4">Login</button>
+        </fieldset>
+      </form>
+    </div>
+  );
 };
 
 export default Register;
