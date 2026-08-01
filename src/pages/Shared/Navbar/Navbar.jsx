@@ -1,13 +1,34 @@
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 import Logo from "../../../components/Logo/Logo";
+import useAuth from "../../../hooks/useAuth";
 
 const Navbar = () => {
-    const links = <>
-    <li><NavLink to="/">Home</NavLink></li>
-    <li><NavLink to="/about">About</NavLink></li>
-    <li><NavLink to="/services">Services</NavLink></li>
-    <li><NavLink to="/coverage">Coverage</NavLink></li>
+  const { user, logOut } = useAuth();
+
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {})
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const links = (
+    <>
+      <li>
+        <NavLink to="/">Home</NavLink>
+      </li>
+      <li>
+        <NavLink to="/about">About</NavLink>
+      </li>
+      <li>
+        <NavLink to="/services">Services</NavLink>
+      </li>
+      <li>
+        <NavLink to="/coverage">Coverage</NavLink>
+      </li>
     </>
+  );
   return (
     <div className="navbar bg-base-100 shadow-sm">
       <div className="navbar-start">
@@ -36,15 +57,21 @@ const Navbar = () => {
             {links}
           </ul>
         </div>
-        <Logo/>
+        <Logo />
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
-          {links}
-        </ul>
+        <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end">
-        <a className="btn">Button</a>
+        {user ? (
+          <button onClick={handleLogOut} className="btn">
+            Log Out
+          </button>
+        ) : (
+          <Link className="btn" to="/login">
+            Login
+          </Link>
+        )}
       </div>
     </div>
   );
