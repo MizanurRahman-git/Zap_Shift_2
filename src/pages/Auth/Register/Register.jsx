@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
+import useAuth from "../../../hooks/useAuth";
 
 const Register = () => {
+  const { registerUser } = useAuth();
   const {
     register,
     handleSubmit,
@@ -9,10 +11,17 @@ const Register = () => {
 
   const handleRegistration = (data) => {
     console.log(data);
+    registerUser(data.email, data.password)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   return (
-    <div>
-      <form onSubmit={handleSubmit(handleRegistration)}>
+    <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+      <form className="card-body" onSubmit={handleSubmit(handleRegistration)}>
         <fieldset className="fieldset">
           <label className="label">Email</label>
           <input
@@ -44,15 +53,16 @@ const Register = () => {
             <p className="text-red-400">Password must be 6 digits.</p>
           )}
           {errors.password?.type === "pattern" && (
-            <p className="text-red-300">
-              Password will be must at least one uppercase, at least one lowercase, at
-              least one number, and at least one special character.
+            <p className="text-red-400">
+              Password will be must at least one uppercase, at least one
+              lowercase, at least one number, and at least one special
+              character.
             </p>
           )}
           <div>
             <a className="link link-hover">Forgot password?</a>
           </div>
-          <button className="btn btn-neutral mt-4">Login</button>
+          <button className="btn btn-neutral mt-4">Register</button>
         </fieldset>
       </form>
     </div>
