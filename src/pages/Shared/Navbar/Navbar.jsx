@@ -62,7 +62,7 @@ const Navbar = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
-      <div className="navbar-end">
+      <div className="navbar-end space-x-4">
         {user ? (
           <button onClick={handleLogOut} className="btn">
             Log Out
@@ -72,6 +72,7 @@ const Navbar = () => {
             Login
           </Link>
         )}
+        <Link to='/rider' className="btn bg-primary">Be a Rider</Link>
       </div>
     </div>
   );

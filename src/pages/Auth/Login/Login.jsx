@@ -1,24 +1,26 @@
 import { useForm } from "react-hook-form";
 import useAuth from "../../../hooks/useAuth";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import SocialLogin from "../SocialLogin/SocialLogin";
 
 const Login = () => {
-    const {signIn} = useAuth()
+  const { signIn } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const handleLogIn = (data) => {
-    console.log(data);
     signIn(data.email, data.password)
-    .then(result => {
-        console.log(result)
-    })
-    .catch(error => {
-        console.log(error)
-    })
+      .then((result) => {
+        console.log(result);
+        navigate(location.state || '/')
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   return (
     <div className="card bg-base-100 w-full max-w-sm mx-auto shrink-0 shadow-2xl">
@@ -55,9 +57,18 @@ const Login = () => {
           </div>
           <button className="btn btn-neutral mt-4">Login</button>
         </fieldset>
-        <p>Please create an account. <Link className="text-green-600 underline" to='/register'>Registration</Link></p>
+        <p>
+          Please create an account.{" "}
+          <Link
+            state={location.state}
+            className="text-green-600 underline"
+            to="/register"
+          >
+            Registration
+          </Link>
+        </p>
       </form>
-      <SocialLogin/>
+      <SocialLogin />
     </div>
   );
 };
