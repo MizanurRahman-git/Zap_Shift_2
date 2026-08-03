@@ -3,7 +3,8 @@ import { useForm } from "react-hook-form";
 const SendParcel = () => {
   const {
     register,
-    handleSubmit
+    handleSubmit,
+    formState:{errors}
   } = useForm();
 
   const handleSendParcel = (data) => {
@@ -45,8 +46,11 @@ const SendParcel = () => {
               type="text"
               className="input w-full"
               placeholder="Enter Your Parcel Name"
-              {...register("parcelName")}
+              {...register("parcelName", {required:true})}
             />
+            {
+                errors.parcelName?.type == "required" && <p className="text-red-500">Parcel Name is Required</p>
+            }
           </fieldset>
           <fieldset className="fieldset">
             <label className="label">Parcel Weight{"(KG)"}</label>
@@ -54,8 +58,11 @@ const SendParcel = () => {
               type="number"
               className="input w-full"
               placeholder="Enter Your Parcel Weight"
-              {...register("parcelweight")}
+              {...register("parcelweight", {required:true})}
             />
+            {
+                errors.parcelweight?.type == "required" && <p className="text-red-500">Parcel Weight is Required</p>
+            }
           </fieldset>
         </div>
 
