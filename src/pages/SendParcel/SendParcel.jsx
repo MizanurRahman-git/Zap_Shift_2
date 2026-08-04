@@ -1,11 +1,25 @@
 import { useForm } from "react-hook-form";
+import { useLoaderData } from "react-router";
 
 const SendParcel = () => {
   const {
     register,
-    handleSubmit,
-    formState:{errors}
+    handleSubmit, watch,
+    formState: { errors },
   } = useForm();
+
+  const serviceCenters = useLoaderData();
+
+  const regions = serviceCenters.map((r) => r.region);
+  const afterRemoveDuplicateRegions = [...new Set(regions)];
+  const senderRegion = watch('senderRegion')
+  const receiverRegion = watch('receiverRegion')
+
+  const districtsByRegion = region => {
+    const districtRegion = serviceCenters.filter(r => r.region === region)
+    const district = districtRegion.map(d=> d.district)
+    return district
+  }
 
   const handleSendParcel = (data) => {
     console.log(data);
@@ -14,7 +28,6 @@ const SendParcel = () => {
     <div className="mt-6">
       <h2 className="text-3xl font-bold">Send A Parcel</h2>
       <form className="my-5" onSubmit={handleSubmit(handleSendParcel)}>
-
         {/* Parcel Type */}
         <div className="space-x-6">
           <label className="label">
@@ -46,11 +59,11 @@ const SendParcel = () => {
               type="text"
               className="input w-full"
               placeholder="Enter Your Parcel Name"
-              {...register("parcelName", {required:true})}
+              {...register("parcelName", { required: true })}
             />
-            {
-                errors.parcelName?.type == "required" && <p className="text-red-500">Parcel Name is Required</p>
-            }
+            {errors.parcelName?.type == "required" && (
+              <p className="text-red-500">Parcel Name is Required</p>
+            )}
           </fieldset>
           <fieldset className="fieldset">
             <label className="label">Parcel Weight{"(KG)"}</label>
@@ -58,11 +71,11 @@ const SendParcel = () => {
               type="number"
               className="input w-full"
               placeholder="Enter Your Parcel Weight"
-              {...register("parcelweight", {required:true})}
+              {...register("parcelweight", { required: true })}
             />
-            {
-                errors.parcelweight?.type == "required" && <p className="text-red-500">Parcel Weight is Required</p>
-            }
+            {errors.parcelweight?.type == "required" && (
+              <p className="text-red-500">Parcel Weight is Required</p>
+            )}
           </fieldset>
         </div>
 
@@ -79,6 +92,27 @@ const SendParcel = () => {
                 placeholder="Enter Sender Name"
                 {...register("senderName")}
               />
+              <label className="label">Sender Email</label>
+              <input
+                type="email"
+                className="input w-full"
+                placeholder="Enter Sender Email"
+                {...register("senderEmail")}
+              />
+              <label className="label">Sender Region</label>
+              <select {...register('senderRegion')} defaultValue="Pick a Region" className="select w-full">
+                <option disabled={true}>Pick a Region</option>
+                {afterRemoveDuplicateRegions.map((r, index) => (
+                  <option key={index}>{r}</option>
+                ))}
+              </select>
+              <label className="label">Sender District</label>
+              <select {...register('senderDistrict')} defaultValue="Pick a District" className="select w-full">
+                <option disabled={true}>Pick a District</option>
+                {districtsByRegion(senderRegion).map((r, index) => (
+                  <option key={index}>{r}</option>
+                ))}
+              </select>
             </fieldset>
             <fieldset className="fieldset">
               <label className="label">Address</label>
@@ -120,6 +154,27 @@ const SendParcel = () => {
                 placeholder="Enter Receiver Name"
                 {...register("receiverName")}
               />
+              <label className="label">Receiver Email</label>
+              <input
+                type="email"
+                className="input w-full"
+                placeholder="Enter Receiver Email"
+                {...register("receiverEmail")}
+              />
+              <label className="label">Receiver Region</label>
+              <select {...register('receiverRegion')} defaultValue="Pick a Region" className="select w-full">
+                <option disabled={true}>Pick a Region</option>
+                {afterRemoveDuplicateRegions.map((r, index) => (
+                  <option key={index}>{r}</option>
+                ))}
+              </select>
+              <label className="label">Receiver District</label>
+              <select {...register('receiverDistrict')} defaultValue="Pick a District" className="select w-full">
+                <option disabled={true}>Pick a District</option>
+                {districtsByRegion(receiverRegion).map((r, index) => (
+                  <option key={index}>{r}</option>
+                ))}
+              </select>
             </fieldset>
             <fieldset className="fieldset">
               <label className="label">Address</label>
