@@ -22,7 +22,8 @@ const SendParcel = () => {
   }
 
   const handleSendParcel = (data) => {
-    console.log(data);
+    const isSameDistrict = data.senderDistrict === data.receiverDistrict
+    console.log(isSameDistrict)
   };
   return (
     <div className="mt-6">
