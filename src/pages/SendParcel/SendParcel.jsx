@@ -1,10 +1,12 @@
 import { useForm } from "react-hook-form";
 import { useLoaderData } from "react-router";
+import Swal from "sweetalert2";
 
 const SendParcel = () => {
   const {
     register,
-    handleSubmit, watch,
+    handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
 
@@ -12,18 +14,52 @@ const SendParcel = () => {
 
   const regions = serviceCenters.map((r) => r.region);
   const afterRemoveDuplicateRegions = [...new Set(regions)];
-  const senderRegion = watch('senderRegion')
-  const receiverRegion = watch('receiverRegion')
+  const senderRegion = watch("senderRegion");
+  const receiverRegion = watch("receiverRegion");
 
-  const districtsByRegion = region => {
-    const districtRegion = serviceCenters.filter(r => r.region === region)
-    const district = districtRegion.map(d=> d.district)
-    return district
-  }
+  const districtsByRegion = (region) => {
+    const districtRegion = serviceCenters.filter((r) => r.region === region);
+    const district = districtRegion.map((d) => d.district);
+    return district;
+  };
 
   const handleSendParcel = (data) => {
-    const isSameDistrict = data.senderDistrict === data.receiverDistrict
-    console.log(isSameDistrict)
+    const isDocuments = data.parcelType === "document";
+    const isSameDistrict = data.senderDistrict === data.receiverDistrict;
+    const parcelWeight = parseFloat(data.parcelweight);
+
+    let cost = 0;
+
+    if (isDocuments) {
+      cost = isSameDistrict ? 60 : 80;
+    } else {
+      if (parcelWeight < 3) {
+        cost = isSameDistrict ? 110 : 150;
+      } else {
+        const minCharge = isSameDistrict ? 110 : 150;
+        const extraWeight = parcelWeight - 3;
+        const extraCharge = isSameDistrict
+          ? extraWeight * 40
+          : extraWeight * 40 + 40;
+        cost = minCharge + extraCharge;
+      }
+    }
+    Swal.fire({
+      title: "Agree with the Cost?",
+      text: `You will be charged ${cost} taka!`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, I Agree",
+    }).then((result) => {
+      if (result.isConfirmed)
+        Swal.fire({
+          title: "Yes..Confirmed Your Cost",
+          text: "Your file has been confirmed",
+          icon: "success",
+        });
+    });
   };
   return (
     <div className="mt-6">
@@ -101,14 +137,22 @@ const SendParcel = () => {
                 {...register("senderEmail")}
               />
               <label className="label">Sender Region</label>
-              <select {...register('senderRegion')} defaultValue="Pick a Region" className="select w-full">
+              <select
+                {...register("senderRegion")}
+                defaultValue="Pick a Region"
+                className="select w-full"
+              >
                 <option disabled={true}>Pick a Region</option>
                 {afterRemoveDuplicateRegions.map((r, index) => (
                   <option key={index}>{r}</option>
                 ))}
               </select>
               <label className="label">Sender District</label>
-              <select {...register('senderDistrict')} defaultValue="Pick a District" className="select w-full">
+              <select
+                {...register("senderDistrict")}
+                defaultValue="Pick a District"
+                className="select w-full"
+              >
                 <option disabled={true}>Pick a District</option>
                 {districtsByRegion(senderRegion).map((r, index) => (
                   <option key={index}>{r}</option>
@@ -163,14 +207,22 @@ const SendParcel = () => {
                 {...register("receiverEmail")}
               />
               <label className="label">Receiver Region</label>
-              <select {...register('receiverRegion')} defaultValue="Pick a Region" className="select w-full">
+              <select
+                {...register("receiverRegion")}
+                defaultValue="Pick a Region"
+                className="select w-full"
+              >
                 <option disabled={true}>Pick a Region</option>
                 {afterRemoveDuplicateRegions.map((r, index) => (
                   <option key={index}>{r}</option>
                 ))}
               </select>
               <label className="label">Receiver District</label>
-              <select {...register('receiverDistrict')} defaultValue="Pick a District" className="select w-full">
+              <select
+                {...register("receiverDistrict")}
+                defaultValue="Pick a District"
+                className="select w-full"
+              >
                 <option disabled={true}>Pick a District</option>
                 {districtsByRegion(receiverRegion).map((r, index) => (
                   <option key={index}>{r}</option>
