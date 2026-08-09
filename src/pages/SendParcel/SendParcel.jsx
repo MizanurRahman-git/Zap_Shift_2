@@ -29,7 +29,7 @@ const SendParcel = () => {
     const parcelWeight = parseFloat(data.parcelweight);
 
     let cost = 0;
-
+    
     if (isDocuments) {
       cost = isSameDistrict ? 60 : 80;
     } else {
@@ -44,6 +44,9 @@ const SendParcel = () => {
         cost = minCharge + extraCharge;
       }
     }
+
+    // SweetAlert
+    
     Swal.fire({
       title: "Agree with the Cost?",
       text: `You will be charged ${cost} taka!`,
