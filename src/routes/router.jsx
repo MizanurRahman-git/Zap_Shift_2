@@ -8,6 +8,8 @@ import Register from "../pages/Auth/Register/Register";
 import PriveteRouter from "./PriveteRouter";
 import Rider from "../pages/Rider/Rider";
 import SendParcel from "../pages/SendParcel/SendParcel";
+import DashboardLayout from "../layouts/DashboardLayout";
+import MyParcel from "../pages/Dashboard/MyParcel/MyParcel";
 
 export const router = createBrowserRouter([
   {
@@ -33,7 +35,7 @@ export const router = createBrowserRouter([
             <SendParcel />
           </PriveteRouter>
         ),
-        loader: () => fetch("/warehouses.json").then((res) => res.json())
+        loader: () => fetch("/warehouses.json").then((res) => res.json()),
       },
       {
         path: "coverage",
@@ -55,5 +57,19 @@ export const router = createBrowserRouter([
         Component: Register,
       },
     ],
+  },
+  {
+    path: "dashboard",
+    element:
+      <PriveteRouter>
+        <DashboardLayout />
+      </PriveteRouter>
+    ,
+    children: [
+      {
+        path: 'my-parcels',
+        Component: MyParcel
+      }
+    ]
   },
 ]);

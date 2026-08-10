@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
@@ -14,6 +14,7 @@ const SendParcel = () => {
 
   const {user} = useAuth() 
 
+  const navigate = useNavigate()
 
   const axiosSecure = useAxiosSecure()
 
@@ -67,6 +68,7 @@ const SendParcel = () => {
 
         axiosSecure.post('/parcels', data).then(res=>{
           console.log(res.data)
+          navigate('/dashboard/my-parcels')
         }).catch(error => {
           console.log(error)
         })

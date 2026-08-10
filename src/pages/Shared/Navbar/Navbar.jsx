@@ -27,6 +27,14 @@ const Navbar = () => {
       <li>
         <NavLink to="/coverage">Coverage</NavLink>
       </li>
+
+      {user && (
+        <>
+          <li>
+            <NavLink to="/dashboard">Dashboard</NavLink>
+          </li>
+        </>
+      )}
     </>
   );
   return (
@@ -72,7 +80,9 @@ const Navbar = () => {
             Login
           </Link>
         )}
-        <Link to='/rider' className="btn bg-primary">Be a Rider</Link>
+        <Link to="/rider" className="btn bg-primary">
+          Be a Rider
+        </Link>
       </div>
     </div>
   );
