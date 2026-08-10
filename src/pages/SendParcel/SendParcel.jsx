@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useLoaderData } from "react-router";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAuth from "../../hooks/useAuth";
 
 const SendParcel = () => {
   const {
@@ -9,6 +11,11 @@ const SendParcel = () => {
     watch,
     formState: { errors },
   } = useForm();
+
+  const {user} = useAuth() 
+
+
+  const axiosSecure = useAxiosSecure()
 
   const serviceCenters = useLoaderData();
 
@@ -57,6 +64,13 @@ const SendParcel = () => {
       confirmButtonText: "Yes, I Agree",
     }).then((result) => {
       if (result.isConfirmed)
+
+        axiosSecure.post('/parcels', data).then(res=>{
+          console.log(res.data)
+        }).catch(error => {
+          console.log(error)
+        })
+
         Swal.fire({
           title: "Yes..Confirmed Your Cost",
           text: "Your file has been confirmed",
@@ -128,6 +142,7 @@ const SendParcel = () => {
               <label className="label">Sender Name</label>
               <input
                 type="text"
+                defaultValue={user?.displayName}
                 className="input w-full"
                 placeholder="Enter Sender Name"
                 {...register("senderName")}
@@ -135,6 +150,7 @@ const SendParcel = () => {
               <label className="label">Sender Email</label>
               <input
                 type="email"
+                defaultValue={user?.email}
                 className="input w-full"
                 placeholder="Enter Sender Email"
                 {...register("senderEmail")}
