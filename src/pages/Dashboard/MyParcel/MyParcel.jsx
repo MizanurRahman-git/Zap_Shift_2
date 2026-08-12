@@ -15,7 +15,7 @@ const MyParcel = () => {
 
     return (
         <div>
-            <h2>This is My parcel page: {data.length}</h2>
+            <h2>This is My parcel page: {data?.length}</h2>
             
         </div>
     );

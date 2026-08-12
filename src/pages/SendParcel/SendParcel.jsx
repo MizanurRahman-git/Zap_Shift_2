@@ -38,6 +38,7 @@ const SendParcel = () => {
 
     let cost = 0;
     
+
     if (isDocuments) {
       cost = isSameDistrict ? 60 : 80;
     } else {
@@ -52,6 +53,8 @@ const SendParcel = () => {
         cost = minCharge + extraCharge;
       }
     }
+
+    data.cost = cost
 
     // SweetAlert
     
