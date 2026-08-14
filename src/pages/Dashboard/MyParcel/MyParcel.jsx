@@ -5,6 +5,7 @@ import { PiListMagnifyingGlassBold } from "react-icons/pi";
 import { CiEdit } from "react-icons/ci";
 import { FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
+import { Link } from "react-router";
 
 const MyParcel = () => {
   const { user } = useAuth();
@@ -52,7 +53,8 @@ const MyParcel = () => {
               <th></th>
               <th>Name</th>
               <th>Cost</th>
-              <th>Payment Stutus</th>
+              <th>Payment</th>
+              <th>Delivery Status</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -62,7 +64,12 @@ const MyParcel = () => {
                 <th>{index + 1}</th>
                 <td>{parcel.parcelName}</td>
                 <td>{parcel.cost}</td>
-                <td>Blue</td>
+                <td>
+                  {
+                    parcel.deliveryStatus === "paid" ? <span className="btn bg-primary">Paid</span> : <Link to={`/dashboard/payment/${parcel._id}`} className="btn bg-primary">Pay</Link>
+                  }
+                </td>
+                <td>Panding</td>
                 <td>
                   <button className="btn btn-square hover:bg-primary">
                     <PiListMagnifyingGlassBold />
