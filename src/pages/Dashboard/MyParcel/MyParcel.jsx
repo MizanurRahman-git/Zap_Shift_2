@@ -66,7 +66,7 @@ const MyParcel = () => {
                 <td>{parcel.cost}</td>
                 <td>
                   {
-                    parcel.deliveryStatus === "paid" ? <span className="btn bg-primary">Paid</span> : <Link to={`/dashboard/payment/${parcel._id}`} className="btn bg-primary">Pay</Link>
+                    parcel.paymentStatus === "paid" ? <span className="btn bg-green-600">✓ Paid</span> : <Link to={`/dashboard/payment/${parcel._id}`} className="btn bg-primary">Pay</Link>
                   }
                 </td>
                 <td>Panding</td>
