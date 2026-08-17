@@ -51,7 +51,7 @@ const MyParcel = () => {
           <thead>
             <tr>
               <th></th>
-              <th>Name</th>
+              <th>Parcel Name</th>
               <th>Cost</th>
               <th>Payment</th>
               <th>Delivery Status</th>
