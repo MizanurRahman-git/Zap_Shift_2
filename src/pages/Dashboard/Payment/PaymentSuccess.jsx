@@ -35,8 +35,8 @@ const PaymentSuccess = () => {
           {paymentinfo.trackingId}
         </span>{" "}
       </p>
-      <Link to="/" className="btn bg-primary">
-        Back to Home
+      <Link to="/dashboard/my-parcels" className="btn bg-primary">
+        Back to Parcels
       </Link>
     </div>
   );
