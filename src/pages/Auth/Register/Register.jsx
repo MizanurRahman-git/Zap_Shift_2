@@ -3,11 +3,13 @@ import useAuth from "../../../hooks/useAuth";
 import { Link, useLocation, useNavigate } from "react-router";
 import SocialLogin from "../SocialLogin/SocialLogin";
 import axios from "axios";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const Register = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { registerUser, updateUserProfile } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const {
     register,
     handleSubmit,
@@ -18,8 +20,7 @@ const Register = () => {
     const profileImg = data.image[0];
 
     registerUser(data.email, data.password)
-      .then((result) => {
-        console.log(result);
+      .then(() => {
         navigate(location.state || "/");
         const formData = new FormData();
         formData.append("image", profileImg);
@@ -29,6 +30,18 @@ const Register = () => {
         axios
           .post(image_API_URL, formData)
           .then((res) => {
+            const userInfo = {
+              name: data.name,
+              photoURL: res.data.data.url,
+              email: data.email,
+            };
+            axiosSecure
+              .post("/users", userInfo)
+              .then(() => {})
+              .catch((err) => {
+                console.log(err);
+              });
+
             const updateInfo = {
               displayName: data.name,
               photoURL: res.data.data.url,
