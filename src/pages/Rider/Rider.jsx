@@ -1,10 +1,23 @@
 import { useForm } from "react-hook-form";
+import { useLoaderData } from "react-router";
 
 const Rider = () => {
-  const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, watch } = useForm();
+
+  const riderRegions = useLoaderData();
+  const regions = riderRegions.map((r) => r.region);
+  const afterRemoveDuplicates = [...new Set(regions)];
+
+  const riderRegion = watch("riderRegion")
+
+  const riderDistrictByRegion = (region) =>{
+    const districtRegion = riderRegions.filter(r => r.region === region)
+    const district = districtRegion.map(d => d.district)
+    return district
+  }
+  
 
   const handleRiderSubmit = (data) => {
-    
     console.log(data);
   };
   return (
@@ -64,9 +77,9 @@ const Rider = () => {
                   {...register("riderRegion", { required: true })}
                 >
                   <option disabled={true}>Your Region</option>
-                  <option>Dhaka</option>
-                  <option>Rangpur</option>
-                  <option>sylet</option>
+                  {afterRemoveDuplicates.map((region, index) => (
+                    <option key={index}>{region}</option>
+                  ))}
                 </select>
 
                 {/* your district*/}
@@ -79,9 +92,10 @@ const Rider = () => {
                   {...register("riderDistrict", { required: true })}
                 >
                   <option disabled={true}>Your District</option>
-                  <option>Dhaka</option>
-                  <option>Rangpur</option>
-                  <option>sylet</option>
+                  {
+                    riderDistrictByRegion(riderRegion).map((district, index) => <option key={index}>{district}</option>)
+                  }
+                  
                 </select>
 
                 {/* NID No */}
@@ -90,7 +104,7 @@ const Rider = () => {
                   type="number"
                   className="input w-full"
                   placeholder="NID"
-                  {...register("nidNumber", {required: true})}
+                  {...register("nidNumber", { required: true })}
                 />
 
                 {/* Phone No */}
@@ -101,7 +115,7 @@ const Rider = () => {
                   type="number"
                   className="input w-full"
                   placeholder="Phone Number"
-                  {...register("phoneNumber", {required: true})}
+                  {...register("phoneNumber", { required: true })}
                 />
 
                 {/* Bike Brand Model and Year */}
@@ -112,7 +126,7 @@ const Rider = () => {
                   type="text"
                   className="input w-full"
                   placeholder="Bike Brand Model and Year"
-                  {...register("bikeModel&year", {required: true})}
+                  {...register("bikeModel&year", { required: true })}
                 />
 
                 {/* Bike Registration Number */}
@@ -123,7 +137,7 @@ const Rider = () => {
                   type="number"
                   className="input w-full"
                   placeholder="Bike Registration Number"
-                  {...register("bikeRegistrationNumber", {required: true})}
+                  {...register("bikeRegistrationNumber", { required: true })}
                 />
 
                 {/* Tell us about yourself */}
@@ -134,7 +148,7 @@ const Rider = () => {
                   type="text"
                   className="input w-full"
                   placeholder="Tell us about yourself"
-                  {...register("riderAbouts", {required: true})}
+                  {...register("riderAbouts", { required: true })}
                 />
 
                 <button className="btn btn-neutral mt-4 bg-primary text-black border-0">
