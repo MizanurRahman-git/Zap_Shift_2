@@ -1,6 +1,6 @@
 import { Link, Outlet } from "react-router";
 import { GoPackage } from "react-icons/go";
-import { MdDashboardCustomize } from "react-icons/md";
+import { MdDashboardCustomize, MdDirectionsBike } from "react-icons/md";
 import { FaHistory } from "react-icons/fa";
 
 const DashboardLayout = () => {
@@ -87,6 +87,13 @@ const DashboardLayout = () => {
                 {/* My Payment history item */}
                 <li>
                     <Link to='/dashboard/payment-history' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Payment History"><FaHistory /><span className="is-drawer-close:hidden">Payment History</span></Link>
+                </li>
+
+                {/* My Approvement item */}
+                <li>
+                    <Link to='/dashboard/approve-riders' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Approve Riders">
+                    <MdDirectionsBike />
+                    <span className="is-drawer-close:hidden">Approve Riders</span></Link>
                 </li>
 
             {/* List item */}

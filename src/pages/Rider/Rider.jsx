@@ -1,25 +1,62 @@
 import { useForm } from "react-hook-form";
-import { useLoaderData } from "react-router";
-import deliveryImage from '../../assets/agent-pending.png'
+import { useLoaderData, useNavigate } from "react-router";
+import deliveryImage from "../../assets/agent-pending.png";
+import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const Rider = () => {
-    const { register, handleSubmit, watch } = useForm();
+  const axiosSecure = useAxiosSecure();
+  const { register, handleSubmit, watch } = useForm();
+  const { user } = useAuth();
+  const navigate = useNavigate()
 
   const riderRegions = useLoaderData();
   const regions = riderRegions.map((r) => r.region);
   const afterRemoveDuplicates = [...new Set(regions)];
 
-  const riderRegion = watch("riderRegion")
+  const riderRegion = watch("riderRegion");
 
-  const riderDistrictByRegion = (region) =>{
-    const districtRegion = riderRegions.filter(r => r.region === region)
-    const district = districtRegion.map(d => d.district)
-    return district
-  }
-  
+  const riderDistrictByRegion = (region) => {
+    const districtRegion = riderRegions.filter((r) => r.region === region);
+    const district = districtRegion.map((d) => d.district);
+    return district;
+  };
 
   const handleRiderSubmit = (data) => {
-    console.log(data);
+    axiosSecure
+      .post("/riders", data)
+      .then((res) => {
+        if (res.data.insertedId) {
+          Swal.fire({
+            title: "Your Request Has been accepted!",
+            text: "We will reach to you in 72 hours. Okay?",
+            showClass: {
+              popup: `
+      animate__animated
+      animate__fadeInUp
+      animate__faster
+    `,
+            },
+            hideClass: {
+              popup: `
+      animate__animated
+      animate__fadeOutDown
+      animate__faster
+    `,
+            },
+          });
+        }
+        navigate('/')
+      })
+      .catch(() => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+          footer: '<a href="/rider">Please Try Again</a>',
+        });
+      });
   };
   return (
     <div className="my-7">
@@ -42,6 +79,7 @@ const Rider = () => {
                 <label className="label text-black font-semibold">Name</label>
                 <input
                   type="text"
+                  defaultValue={user?.displayName}
                   className="input w-full"
                   placeholder="Name"
                   {...register("riderName", { required: true })}
@@ -62,6 +100,7 @@ const Rider = () => {
                 </label>
                 <input
                   type="email"
+                  defaultValue={user?.email}
                   className="input w-full"
                   placeholder="Your Email"
                   {...register("riderEmail", { required: true })}
@@ -92,10 +131,9 @@ const Rider = () => {
                   {...register("riderDistrict", { required: true })}
                 >
                   <option disabled={true}>Your District</option>
-                  {
-                    riderDistrictByRegion(riderRegion).map((district, index) => <option key={index}>{district}</option>)
-                  }
-                  
+                  {riderDistrictByRegion(riderRegion).map((district, index) => (
+                    <option key={index}>{district}</option>
+                  ))}
                 </select>
 
                 {/* NID No */}
