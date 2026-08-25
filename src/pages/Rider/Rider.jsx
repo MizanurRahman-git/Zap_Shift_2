@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useLoaderData } from "react-router";
+import deliveryImage from '../../assets/agent-pending.png'
 
 const Rider = () => {
     const { register, handleSubmit, watch } = useForm();
@@ -31,7 +32,6 @@ const Rider = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 mt-12 border-t-2 border-gray-300">
         {/* form section */}
         <div>
-          {/* form */}
           <h2 className="font-extrabold text-[28px] text-[#03373D]">
             Tell us about yourself
           </h2>
@@ -158,9 +158,10 @@ const Rider = () => {
             </div>
           </form>
         </div>
-        <div>
-          {/* image */}
-          <p>image swction</p>
+
+        {/* image section*/}
+        <div className=" flex items-center mx-auto">
+          <img src={deliveryImage} alt="deliveryImage" />
         </div>
       </div>
     </div>
