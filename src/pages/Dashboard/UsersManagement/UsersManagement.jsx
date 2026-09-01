@@ -38,8 +38,12 @@ const UsersManagement = () => {
               });
             }
           })
-          .catch((err) => {
-            console.log(err);
+          .catch(() => {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Something went wrong!",
+            });
           });
     });
   };
