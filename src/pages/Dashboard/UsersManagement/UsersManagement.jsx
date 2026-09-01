@@ -1,15 +1,56 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { FaUserShield } from "react-icons/fa";
+import { FiShieldOff } from "react-icons/fi";
+import Swal from "sweetalert2";
 
 const UsersManagement = () => {
   const axiosSecure = useAxiosSecure();
-  const { data: users = [] } = useQuery({
+  const { refetch, data: users = [] } = useQuery({
     queryKey: ["user"],
     queryFn: async () => {
       const res = await axiosSecure.get(`/users`);
       return res.data;
     },
   });
+
+  const updateUserRole = (id, role, name) => {
+    const roleInfo = { user_Role: role };
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Confirm",
+    }).then((result) => {
+      if (result.isConfirmed)
+        axiosSecure
+          .patch(`/users/${id}`, roleInfo)
+          .then((res) => {
+            if (res.data.modifiedCount) {
+              refetch();
+              Swal.fire({
+                title: `${name} Marked As An ${role}!`,
+                icon: "success",
+                draggable: true,
+              });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+    });
+  };
+
+  const forAdminUser = (user) => {
+    updateUserRole(user._id, "Admin", user.name);
+  };
+
+  const forNormalUser = (user) => {
+    updateUserRole(user._id, "User", user.name);
+  };
   return (
     <div>
       <h1>All Users:{users.length}</h1>
@@ -22,7 +63,6 @@ const UsersManagement = () => {
               <th>Name</th>
               <th>Email</th>
               <th>Actions</th>
-              
             </tr>
           </thead>
           <tbody>
@@ -44,7 +84,21 @@ const UsersManagement = () => {
                 </td>
                 <td>{user.email}</td>
                 <td>
-                    <button className="btn bg-primary">Delete</button>
+                  {user.user_Role === "Admin" ? (
+                    <button
+                      onClick={() => forNormalUser(user)}
+                      className="btn bg-red-700"
+                    >
+                      <FiShieldOff />
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => forAdminUser(user)}
+                      className="btn bg-green-700"
+                    >
+                      <FaUserShield />
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}
