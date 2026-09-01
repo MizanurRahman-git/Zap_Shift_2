@@ -68,14 +68,14 @@ const ApproveRiders = () => {
                 <td className="space-x-2">
                   <button
                     onClick={() => handleRiderApprove(rider._id)}
-                    className="btn"
+                    className="btn bg-primary"
                   >
                     <FaUserCheck />
                   </button>
-                  <button onClick={()=> handleRiderReject(rider._id)} className="btn">
+                  <button onClick={()=> handleRiderReject(rider._id)} className="btn bg-primary">
                     <IoPersonRemove />
                   </button>
-                  <button className="btn">
+                  <button className="btn bg-primary">
                     <FaTrash />
                   </button>
                 </td>
