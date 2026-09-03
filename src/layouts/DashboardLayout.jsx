@@ -2,8 +2,10 @@ import { Link, Outlet } from "react-router";
 import { GoPackage } from "react-icons/go";
 import { MdDashboardCustomize, MdDirectionsBike } from "react-icons/md";
 import { FaHistory, FaUsers } from "react-icons/fa";
+import useRole from "../hooks/useRole";
 
 const DashboardLayout = () => {
+  const { userRole } = useRole();
   return (
     <div className="drawer lg:drawer-open">
       <input
@@ -52,7 +54,8 @@ const DashboardLayout = () => {
           <ul className="menu w-full grow">
             {/* List item */}
             <li>
-              <Link to='/'
+              <Link
+                to="/"
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                 data-tip="Homepage"
               >
@@ -74,34 +77,71 @@ const DashboardLayout = () => {
               </Link>
             </li>
 
-                {/* Dashboard */}
-                <li>
-                    <Link to='/dashboard' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Dashboard"><MdDashboardCustomize /><span className="is-drawer-close:hidden">Dashboard</span></Link>
-                </li>
+            {/* Dashboard */}
+            <li>
+              <Link
+                to="/dashboard"
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="Dashboard"
+              >
+                <MdDashboardCustomize />
+                <span className="is-drawer-close:hidden">Dashboard</span>
+              </Link>
+            </li>
 
-                {/* My Parcel item */}
-                <li>
-                    <Link to='/dashboard/my-parcels' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Parcels"><GoPackage /><span className="is-drawer-close:hidden">My Parcels</span></Link>
-                </li>
+            {/* My Parcel item */}
+            <li>
+              <Link
+                to="/dashboard/my-parcels"
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="My Parcels"
+              >
+                <GoPackage />
+                <span className="is-drawer-close:hidden">My Parcels</span>
+              </Link>
+            </li>
 
-                {/* My Payment history item */}
-                <li>
-                    <Link to='/dashboard/payment-history' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Payment History"><FaHistory /><span className="is-drawer-close:hidden">Payment History</span></Link>
-                </li>
+            {/* My Payment history item */}
+            <li>
+              <Link
+                to="/dashboard/payment-history"
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="Payment History"
+              >
+                <FaHistory />
+                <span className="is-drawer-close:hidden">Payment History</span>
+              </Link>
+            </li>
 
-                {/* My Approvement item */}
+            {userRole.user_Role === "Admin" && 
+              <>
                 <li>
-                    <Link to='/dashboard/approve-riders' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Approve Riders">
+                  <Link
+                    to="/dashboard/approve-riders"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Approve Riders"
+                  >
                     <MdDirectionsBike />
-                    <span className="is-drawer-close:hidden">Approve Riders</span></Link>
+                    <span className="is-drawer-close:hidden">
+                      Approve Riders
+                    </span>
+                  </Link>
                 </li>
 
-                {/* All Users Management */}
                 <li>
-                    <Link to='/dashboard/users-management' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Users Management">
+                  <Link
+                    to="/dashboard/users-management"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Users Management"
+                  >
                     <FaUsers />
-                    <span className="is-drawer-close:hidden">Users Management</span></Link>
+                    <span className="is-drawer-close:hidden">
+                      Users Management
+                    </span>
+                  </Link>
                 </li>
+              </>
+            }
 
             {/* List item */}
             <li>

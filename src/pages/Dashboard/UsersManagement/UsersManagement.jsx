@@ -71,7 +71,7 @@ const UsersManagement = () => {
           </thead>
           <tbody>
             {users.map((user, index) => (
-              <tr>
+              <tr key={index}>
                 <th>{index + 1}</th>
                 <td>
                   <div className="flex items-center gap-3">
