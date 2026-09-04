@@ -1,6 +1,6 @@
 import { Link, Outlet } from "react-router";
 import { GoPackage } from "react-icons/go";
-import { MdDashboardCustomize, MdDirectionsBike } from "react-icons/md";
+import { MdAssignmentTurnedIn, MdDashboardCustomize, MdDirectionsBike } from "react-icons/md";
 import { FaHistory, FaUsers } from "react-icons/fa";
 import useRole from "../hooks/useRole";
 
@@ -124,6 +124,19 @@ const DashboardLayout = () => {
                     <MdDirectionsBike />
                     <span className="is-drawer-close:hidden">
                       Approve Riders
+                    </span>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    to="/dashboard/assign-rider"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Assign Rider"
+                  >
+                    <MdAssignmentTurnedIn />
+                    <span className="is-drawer-close:hidden">
+                      Assign Rider
                     </span>
                   </Link>
                 </li>

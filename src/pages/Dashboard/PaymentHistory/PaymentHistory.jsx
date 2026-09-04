@@ -34,8 +34,8 @@ const PaymentHistory = () => {
               <th>{index + 1}</th>
               <td>{payment?.parcelName}</td>
               <td>{payment?.cost} /-</td>
-              <td>{payment?.transactionId}</td>
-              <td>{payment?.trackingId}</td>
+              <td>{payment.paymentStatus === "paid" ? payment?.transactionId : "Please Pay First"}</td>
+              <td>{payment.paymentStatus === "paid" ? payment?.trackingId : "Please Pay First"}</td>
             </tr>)
             }
             

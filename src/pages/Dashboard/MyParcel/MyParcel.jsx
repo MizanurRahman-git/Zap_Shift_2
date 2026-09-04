@@ -69,7 +69,7 @@ const MyParcel = () => {
                     parcel.paymentStatus === "paid" ? <span className="btn bg-green-600">✓ Paid</span> : <Link to={`/dashboard/payment/${parcel._id}`} className="btn bg-primary">Pay</Link>
                   }
                 </td>
-                <td>Panding</td>
+                <td>{parcel.paymentStatus === "paid" ? parcel.deliveryStatus  : "Pay First..."}</td>
                 <td>
                   <button className="btn btn-square hover:bg-primary">
                     <PiListMagnifyingGlassBold />
