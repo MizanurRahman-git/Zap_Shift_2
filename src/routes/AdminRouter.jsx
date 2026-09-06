@@ -14,7 +14,7 @@ const AdminRouter = ({children}) => {
     );
   }
 
-  if(userRole.user_Role !== "Admin"){
+  if(userRole !== "Admin"){
     return <div className="text-center space-y-5">
         <h1 className="font-bold text-4xl">Opps, Sorry You are not allow for this page!</h1>
         <Link to='/' className="btn bg-primary text-xl">Please go back to Home</Link>

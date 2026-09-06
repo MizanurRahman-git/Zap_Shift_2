@@ -1,11 +1,18 @@
 import { Link, Outlet } from "react-router";
 import { GoPackage } from "react-icons/go";
-import { MdAssignmentTurnedIn, MdDashboardCustomize, MdDirectionsBike } from "react-icons/md";
+import {
+  MdAssignmentTurnedIn,
+  MdDashboardCustomize,
+  MdDirectionsBike,
+} from "react-icons/md";
 import { FaHistory, FaUsers } from "react-icons/fa";
 import useRole from "../hooks/useRole";
+import useStatus from "../hooks/useStatus";
+import { FcInTransit } from "react-icons/fc";
 
 const DashboardLayout = () => {
   const { userRole } = useRole();
+  const {rider} = useStatus()
   return (
     <div className="drawer lg:drawer-open">
       <input
@@ -113,7 +120,22 @@ const DashboardLayout = () => {
               </Link>
             </li>
 
-            {userRole.user_Role === "Admin" && 
+            {rider.status === "Approved" && (
+              <li>
+                <Link
+                  to="/dashboard/rider-work-status"
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="Work Status"
+                >
+                  <FcInTransit />
+                  <span className="is-drawer-close:hidden">
+                    Work Status
+                  </span>
+                </Link>
+              </li>
+            )}
+
+            {userRole === "Admin" && (
               <>
                 <li>
                   <Link
@@ -135,9 +157,7 @@ const DashboardLayout = () => {
                     data-tip="Assign Rider"
                   >
                     <MdAssignmentTurnedIn />
-                    <span className="is-drawer-close:hidden">
-                      Assign Rider
-                    </span>
+                    <span className="is-drawer-close:hidden">Assign Rider</span>
                   </Link>
                 </li>
 
@@ -154,7 +174,7 @@ const DashboardLayout = () => {
                   </Link>
                 </li>
               </>
-            }
+            )}
 
             {/* List item */}
             <li>
