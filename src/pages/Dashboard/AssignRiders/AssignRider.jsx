@@ -76,6 +76,7 @@ const AssignRider = () => {
         </table>
       </div>
 
+      {/* Rider Modal */}
       <dialog
         ref={riderModalRef}
         className="modal modal-bottom sm:modal-middle"
