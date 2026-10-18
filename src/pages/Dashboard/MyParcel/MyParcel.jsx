@@ -47,7 +47,6 @@ const MyParcel = () => {
       <h2>This is My parcel page: {myParcels?.length}</h2>
       <div className="overflow-x-auto">
         <table className="table table-zebra">
-          {/* head */}
           <thead>
             <tr>
               <th></th>
@@ -65,11 +64,22 @@ const MyParcel = () => {
                 <td>{parcel.parcelName}</td>
                 <td>{parcel.cost}</td>
                 <td>
-                  {
-                    parcel.paymentStatus === "paid" ? <span className="btn bg-green-600">✓ Paid</span> : <Link to={`/dashboard/payment/${parcel._id}`} className="btn bg-primary">Pay</Link>
-                  }
+                  {parcel.paymentStatus === "paid" ? (
+                    <span className="btn bg-green-600">✓ Paid</span>
+                  ) : (
+                    <Link
+                      to={`/dashboard/payment/${parcel._id}`}
+                      className="btn bg-primary"
+                    >
+                      Pay
+                    </Link>
+                  )}
                 </td>
-                <td>{parcel.paymentStatus === "paid" ? parcel.deliveryStatus  : "Pay First..."}</td>
+                <td>
+                  {parcel.paymentStatus === "paid"
+                    ? parcel.deliveryStatus
+                    : "Pay First..."}
+                </td>
                 <td>
                   <button className="btn btn-square hover:bg-primary">
                     <PiListMagnifyingGlassBold />
