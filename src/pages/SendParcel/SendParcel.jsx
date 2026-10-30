@@ -12,11 +12,11 @@ const SendParcel = () => {
     formState: { errors },
   } = useForm();
 
-  const {user} = useAuth() 
+  const { user } = useAuth();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const axiosSecure = useAxiosSecure()
+  const axiosSecure = useAxiosSecure();
 
   const serviceCenters = useLoaderData();
 
@@ -37,7 +37,6 @@ const SendParcel = () => {
     const parcelWeight = parseFloat(data.parcelweight);
 
     let cost = 0;
-    
 
     if (isDocuments) {
       cost = isSameDistrict ? 60 : 80;
@@ -54,10 +53,10 @@ const SendParcel = () => {
       }
     }
 
-    data.cost = cost
+    data.cost = cost;
 
     // SweetAlert
-    
+
     Swal.fire({
       title: "Agree with the Cost?",
       text: `You will be charged ${cost} taka!`,
@@ -68,19 +67,21 @@ const SendParcel = () => {
       confirmButtonText: "Yes, I Agree",
     }).then((result) => {
       if (result.isConfirmed)
+        axiosSecure
+          .post("/parcels", data)
+          .then((res) => {
+            console.log(res.data);
+            navigate("/dashboard/my-parcels");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
 
-        axiosSecure.post('/parcels', data).then(res=>{
-          console.log(res.data)
-          navigate('/dashboard/my-parcels')
-        }).catch(error => {
-          console.log(error)
-        })
-
-        Swal.fire({
-          title: "Yes..Confirmed Your Cost",
-          text: "Your file has been confirmed",
-          icon: "success",
-        });
+      Swal.fire({
+        title: "Yes..Confirmed Your Cost",
+        text: "Your file has been confirmed",
+        icon: "success",
+      });
     });
   };
   return (
