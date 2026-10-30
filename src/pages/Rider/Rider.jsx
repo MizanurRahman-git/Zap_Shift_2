@@ -9,7 +9,7 @@ const Rider = () => {
   const axiosSecure = useAxiosSecure();
   const { register, handleSubmit, watch } = useForm();
   const { user } = useAuth();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const riderRegions = useLoaderData();
   const regions = riderRegions.map((r) => r.region);
@@ -47,7 +47,7 @@ const Rider = () => {
             },
           });
         }
-        navigate('/')
+        navigate("/");
       })
       .catch(() => {
         Swal.fire({
